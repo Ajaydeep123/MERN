@@ -1,1 +1,18 @@
 starting backend on 10 nov 2022
+
+Express server benefits?
+Syntax simple, code Readability is better, req res routing simpler
+Secure and fast
+Server side logic
+
+Feature	                                Express.js	                                                                Node.js
+
+Usage	                 It is used to build web-apps using approaches and principles of Node.js.	    It is used to build server-side, input-output, event-driven apps.
+Level of features      	More features than Node.js.	                                                    Fewer features.
+Building Block	        It is built on Node.js.	                                                        It is built on Google’s V8 engine.
+Written in	             JavaScript	                                                                C, C++, JavaScript
+Framework/Platform	     Framework based on Node.js.	                                                Run-time platform or environment designed for server-side execution of JavaScript.
+Controllers	            Controllers are provided.	                                                    Controllers are not provided.
+Routing	                 Routing is provided.                                                           Routing is not provided.
+Middleware	            Uses middleware for the arrangement of functions systematically server-side.	Doesn’t use such a provision.
+Coding time	            It requires less coding time.	                                                It requires more coding time.
