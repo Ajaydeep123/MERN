@@ -28,12 +28,12 @@ app.patch('/user', (req, res) => {
     })
 });
 
-// app.delete('/user', (req, res) => {
-//     user = {};
-//     res.json({
-//         msg: "user has been deleted"
-//     });
-// })
+app.delete('/user', (req, res) => {
+    user = {};
+    res.json({
+        msg: "user has been deleted"
+    });
+})
 
 
 
