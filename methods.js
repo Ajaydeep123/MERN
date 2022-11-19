@@ -1,10 +1,33 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
-let user = {};
+let user = [
+    {
+      id: 1,
+      name: "Abhishek",
+      age: 100,
+    },
+    {
+      id: 2,
+      name: "Rajat",
+      age: 10,
+    },
+    {
+      id: 3,
+      name: "Sunjyot",
+      age: 50,
+    },
+  ];
 
+//with query
 app.get('/user', (req, res) => {
-    res.send(user);
+    // res.send(user);
+    console.log(req.query);
+    let { name, age } = req.query;
+    let filteredData=user.filter(userObj => {
+        return (userObj.name==name && userObj.age==age)
+    })
+    res.send(filteredData);
 })
 
 app.post('/user', (req, res) => {
@@ -35,6 +58,13 @@ app.delete('/user', (req, res) => {
     });
 })
 
+//params
+app.get('/user/:name', (req, res) => {
+    console.log(req.params.name);
+    //let {id}=req.params;
+    // let user = db.findOne(id);
+    res.json({ msg: "user id is ", "obj": req.params });
+});
 
 
 
