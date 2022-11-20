@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
+const mongoose = require('mongoose');
+const db_link  = require('./secrets');
 let user = [
   {
     id: 1,
@@ -97,3 +99,13 @@ function postSignup(req, res) {
 }
 
 app.listen(5000);
+// http://localhost:5000/auth/signup--
+
+mongoose.connect(db_link)
+    .then(function (db) {
+        console.log("db connected");
+        // console.log(db);
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
