@@ -26,7 +26,9 @@ app.use("/user", userRouter);
 app.use("/auth", authRouter);
 userRouter
   .route("/")
-  .get(getUser)
+  // .get(getUser)
+  .get(middleware1,getUser,middleware2)
+
   .post(postUser)
   .patch(updateUser)
   .delete(deleteUser);
@@ -42,14 +44,29 @@ authRouter.route("/signup").get(getSignup).post(postSignup);
 // app.delete('/user', )
 //params
 // app.get('/user/:name', );
-function getUser(req, res) {
+
+// next() is crurcial because it helps to get to next middleware to get the response
+// jab bhi hum response send kardenge, uske baad agar koi dusra response bhejenge toh it'll not make any difference because response already ek bar ja chuka hai
+function middleware1(req,res,next) {
+  console.log("midleware 1 called");
+  next();
+}
+
+function middleware2(req,res) {
+  console.log("midleware 2 called");
+  res.json({ msg: "user returned" })
+}
+
+function getUser(req, res, next) {
   console.log(req.query);
   let { name, age } = req.query;
   // let filteredData=user.filter(userObj => {
   //     return (userObj.name==name && userObj.age==age)
   // })
   // res.send(filteredData);
-  res.send(user);
+  // res.send(user);      
+  console.log("getUser called ");
+  next();
 }
 function postUser(req, res) {
   console.log(req.body.Name);
