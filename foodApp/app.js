@@ -20,6 +20,10 @@ let user = [
     age: 50,
   },
 ];
+
+
+
+
 const userRouter = express.Router();
 const authRouter = express.Router();
 app.use("/user", userRouter);
@@ -27,8 +31,8 @@ app.use("/auth", authRouter);
 userRouter
   .route("/")
   // .get(getUser)
-  .get(middleware1,getUser,middleware2)
-
+  // .get(middleware1,getUser,middleware2)
+  .get(middleware1,getUsers)
   .post(postUser)
   .patch(updateUser)
   .delete(deleteUser);
@@ -52,22 +56,30 @@ function middleware1(req,res,next) {
   next();
 }
 
-function middleware2(req,res) {
-  console.log("midleware 2 called");
-  res.json({ msg: "user returned" })
-}
+// function middleware2(req,res) {
+//   console.log("midleware 2 called");
+//   res.json({ msg: "user returned" })
+// }
 
-function getUser(req, res, next) {
+async function getUsers(req, res, next) {
   console.log(req.query);
   let { name, age } = req.query;
   // let filteredData=user.filter(userObj => {
   //     return (userObj.name==name && userObj.age==age)
   // })
   // res.send(filteredData);
-  // res.send(user);      
-  console.log("getUser called ");
-  next();
+  // res.send(user);  
+  
+      //get all users from db
+  let allUsers=await userModel.findOne({name:"Abhishek"} )
+
+
+  res.json({ msg: "users retrieved", allUsers });
+  // console.log("getUser called ");
+  // next();
 }
+
+
 function postUser(req, res) {
   console.log(req.body.Name);
   //then i can put this in db
@@ -104,16 +116,24 @@ function getSignup(req, res) {
     res.sendFile("/public/index.html", { root: __dirname });
 }
 
-function postSignup(req, res) {
-    let { email, name, password } = req.body;
-    console.log(req.body);
-    res.json({
-        msg: "user signed up",
-        email,
-        name,
-        password
-    })
+async function postSignup(req, res) {
+  // let { email, name, password } = req.body;
+  try {
+      let data = req.body;
+      let user = await userModel.create(data);
+      console.log(data);
+      res.json({
+          msg: "user signed up",
+          user
+      })
+  }
+  catch (err) {
+      res.json({
+          err:err.message
+      })
+  }
 }
+
 
 app.listen(5000);
 // http://localhost:5000/auth/signup--
@@ -126,3 +146,39 @@ mongoose.connect(db_link)
     .catch(function (err) {
         console.log(err);
     });
+
+    const userSchema = mongoose.Schema({
+      name: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+        unique: true,
+      },
+      password: {
+        type: String,
+        required: true,
+        minLength: 7,
+      },
+      confirmPassword: {
+        type: String,
+        required: true,
+        minLength: 7,
+      },
+    });
+    
+    //models
+    const userModel = mongoose.model("userModel", userSchema);
+    
+    // (async function createUser() {
+    //     let user = {
+    //         name: "Ajaydeep",
+    //         email: "xyz@gmail.com",
+    //         password: "12345678",
+    //         confirmPassword: "12345678"
+    //     };
+    //     let data = await userModel.create(user);
+    //     console.log(data);
+    // })();
