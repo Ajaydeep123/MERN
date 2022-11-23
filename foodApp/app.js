@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const userModel=require('./models/userModel')
+const cookieParser = require("cookie-parser");
 app.use(express.json());
+app.use(cookieParser());
 // const mongoose = require('mongoose');
 // const db_link  = require('./secrets');
 let user = [
@@ -37,6 +39,10 @@ userRouter
   .post(postUser)
   .patch(updateUser)
   .delete(deleteUser);
+
+
+userRouter.route("/setcookies").get(setCookies);
+userRouter.route("/getcookies").get(getCookies);
 
 userRouter.route("/:name").get(getUserById);
 
@@ -154,8 +160,24 @@ async function postSignup(req, res) {
 }
 
 
+// http://localhost:5000/user/setcookies
+function setCookies(req,res) {
+  // res.setHeader('Set-Cookie', 'isLoggedIn=true');
+  res.cookie('isLoggedIn', false, {maxAge: 10000, secure:true});
+  res.cookie('password', 12345678, {secure:true});
+  res.send('cookies has been set');
+}
+
+function getCookies(req,res) {
+  let cookies = req.cookies.password;
+  console.log(cookies);
+  res.send('cookies received')
+}
+
+
 app.listen(5000);
-// http://localhost:5000/auth/signup--
+// http://localhost:5000/auth/signup
+
 
 // mongoose.connect(db_link)
 //     .then(function (db) {
