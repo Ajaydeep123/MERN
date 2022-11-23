@@ -16,8 +16,22 @@ function getSignup(req, res) {
 }
 
 async function postSignup(req, res) {
-
-}
+    // let { email, name, password } = req.body;
+    try {
+      let data = req.body;
+      console.log("in postsignup");
+      let user = await userModel.create(data);
+      console.log(data);
+      res.json({
+        msg: "user signed up",
+        user,
+      });
+    } catch (err) {
+      res.json({
+        err: err.message,
+      });
+    }
+  }
 
 async function loginUser(req, res) {
     try {
@@ -27,6 +41,8 @@ async function loginUser(req, res) {
             //check if password matches
             //bcrypt - compare 
             if (password == user.password) {
+
+                res.cookie('isLoggedIn', true);
                 res.json({
                   msg: "user logged in",
                 });

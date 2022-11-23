@@ -57,13 +57,13 @@ userSchema.pre("save", function () {
 
 // here we're using async await because by the time the salt will be brought to our password, we can't allow other things to stop doing their work, so we use async await here.
 // there is only one key per server
-userSchema.pre('save', async function () {
-    let salt = await bcrypt.genSalt();
-    console.log(salt);
-    let hashedString = await bcrypt.hash(this.password, salt);
-    this.password = hashedString;
-    // console.log(hashedString);
-})
+// userSchema.pre('save', async function () {
+//     let salt = await bcrypt.genSalt();
+//     console.log(salt);
+//     let hashedString = await bcrypt.hash(this.password, salt);
+//     this.password = hashedString;
+//     // console.log(hashedString);
+// })
 
 //models
 const userModel = mongoose.model("userModel", userSchema);

@@ -1,9 +1,11 @@
 const express = require("express");
 const userRouter = express.Router();
 const userModel = require("../models/userModel");
+
+
 userRouter
   .route("/")
-  .get(middleware1, getUsers)
+  .get(protectRoute, getUsers)
   .post(postUser)
   .patch(updateUser)
   .delete(deleteUser);
@@ -23,21 +25,34 @@ userRouter
     
 // next() is crurcial because it helps to get to next middleware to get the response
 // jab bhi hum response send kardenge, uske baad agar koi dusra response bhejenge toh it'll not make any difference because response already ek bar ja chuka hai
-function middleware1(req, res, next) {
-  console.log("midleware 1 called");
-  next();
-}
+// function middleware1(req, res, next) {
+//   console.log("midleware 1 called");
+//   next();
+// }
+
+// let isLoggedIn = false;
+//isadmin cookie can be used to identify b/w user and admin 
+function protectRoute(req, res, next) {       // this is a middleware function that we have created to check whether user is logged in or not
+    if (req.cookies.isLoggedIn) {
+      next();
+    } else {
+      return res.json({
+        msg: "opertion not allowed",
+      });
+    }
+  }
 
 async function getUsers(req, res) {
   console.log(req.query);
-  let { name, age } = req.query;
+//   let { name, age } = req.query;
   // let filteredData=user.filter(userObj => {
   //     return (userObj.name==name && userObj.age==age)
   // })
   // res.send(filteredData);
 
   //get all users from db
-  let allUsers = await userModel.findOne({ name: "Abhishek" });
+  let allUsers = await userModel.find();  
+//   let allUsers = await userModel.findOne({ name: "Abhishek" });
 
   res.json({ msg: "users retrieved", allUsers });
   // console.log("getUser called ");
