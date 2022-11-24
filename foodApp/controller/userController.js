@@ -18,7 +18,7 @@ const userModel = require('../models/userModel');
 
 module.exports.getUser = async function (req, res) {
   try {
-    let id = req.params.id;
+    let id = req.id;
     let user = await userModel.findById(id);
 
     res.json({ msg: "users retrieved", user });
@@ -28,7 +28,7 @@ module.exports.getUser = async function (req, res) {
        msg: err.message,
      });
   }
-}
+};
 
 // module.exports.postUser=function (req, res) {
 //   console.log(req.body.Name);
@@ -55,7 +55,7 @@ module.exports.getUser = async function (req, res) {
 //   });
 // }
 
-module.exports.updateUser=async function (req, res) {
+module.exports.updateUser = async function (req, res) {
   console.log(req.body);
   let id = req.params.id;
   let user = await userModel.findById(id);
@@ -73,13 +73,13 @@ module.exports.updateUser=async function (req, res) {
         keys.push(key);
       }
       for (let i = 0; i < keys.length; i++) {
-        user[keys[i]] = dataToBeUpdated[keys[i]]
+        user[keys[i]] = dataToBeUpdated[keys[i]];
         //name=Abhi
       }
       const updatedData = await user.save();
       res.json({
         message: "data updated succesfully",
-        updatedData
+        updatedData,
       });
     }
     else {
@@ -93,7 +93,7 @@ module.exports.updateUser=async function (req, res) {
       message: err.message,
     });
   }
-}
+};
 
 
 
@@ -111,7 +111,7 @@ module.exports.updateUser=async function (req, res) {
 //   });
 // }
 
-module.exports.deleteUser=async function (req, res) {
+module.exports.deleteUser = async function (req, res) {
   try {
     let id = req.params.id;
     // let doc = await userModel.deleteOne({ email: "abcd@gmail.com" });
@@ -127,14 +127,14 @@ module.exports.deleteUser=async function (req, res) {
       msg: err.message,
     });
   }
-}
+};
 
 module.exports.getAllUser = async function (req, res) {
   try {
     let allUsers = await userModel.find();
     res.json({
       msg: "user id is ",
-      allUsers
+      allUsers,
     });
   }
   catch (err) {
@@ -142,7 +142,7 @@ module.exports.getAllUser = async function (req, res) {
       msg: err.message,
     });
   }
-}
+};
 
 // module.exports.getUserById=function(req, res) {
 //   console.log(req.params.name);
