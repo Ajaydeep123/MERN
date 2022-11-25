@@ -109,4 +109,11 @@ module.exports.resetpassword = async function (req, res) {
   }
 }
 
+module.exports.logout = function (req,res) {
+  res.cookie('login', ' ', { maxAge: 1 });
+  res.json({
+    msg:'user logged out successfully'
+  })
+}
+
 

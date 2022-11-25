@@ -31,6 +31,9 @@ const { signup, login } = require('../controller/authController');
   .route("/resetpassword/:token")
   .post(resetpassword);
 
+  userRouter
+  .route("/logout")
+  .get(logout);
 // userRouter
 //     .route("/setcookies")
 //     .get(setCookies);
