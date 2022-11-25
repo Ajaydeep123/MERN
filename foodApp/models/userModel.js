@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const { db_link } = require("../secrets");
 const emailValidator = require("email-validator");
 const bcrypt = require('bcrypt');
-import { v4 as uuidv4 } from "uuid";
+const uuidv4 = require("uuid");
 mongoose
   .connect(db_link)
   .then(function (db) {
-    console.log("db connected");
+    console.log("user db connected");
     // console.log(db);
   })
   .catch(function (err) {
@@ -39,18 +39,17 @@ const userSchema = mongoose.Schema({
       return this.confirmPassword == this.password;
     },
   },
-
-  role:{
+  role: {
     type: String,
     enum: ['admin', 'user', 'restaurantowner', 'deliveryboy'],
     default:'user'
   },
-  
-  profileImage:{
+  profileImage: {
     type: String,
     default:'img/users/default.jpg'
   },
   resetToken:String
+
 });
 
 //-------------->learning hooks<-----------------
@@ -67,8 +66,6 @@ userSchema.pre("save", function () {
   this.confirmPassword = undefined;
 });
 
-// here we're using async await because by the time the salt will be brought to our password, we can't allow other things to stop doing their work, so we use async await here.
-// there is only one key per server
 // userSchema.pre('save', async function () {
 //     let salt = await bcrypt.genSalt();
 //     console.log(salt);
@@ -88,6 +85,11 @@ userSchema.methods.resetPasswordHandler = function (password,confirmPassword) {
   this.confirmPassword = confirmPassword;
   this.resetToken = undefined;
 };
+
+
+
+
+
 
 //models
 const userModel = mongoose.model("userModel", userSchema);

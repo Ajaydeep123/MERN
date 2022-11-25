@@ -1,62 +1,50 @@
 const express = require("express");
 const userRouter = express.Router();
-// const { getUsers, postUser, updateUser, deleteUser, getUserById, setCookies, getCookies } = require("../controller/userController");
-const { getUser, postUser, updateUser, deleteUser, getAllUser} = require("../controller/userController");
-
+const {
+  getUser,
+  postUser,
+  updateUser,
+  deleteUser,
+  allUser,
+} = require("../controller/userController");
 const {isAuthorised,protectRoute} = require('../helper');
-const { signup, login } = require('../controller/authController');
-//options for user
-  userRouter
-//   .route("/")
-//   .get(protectRoute, getUsers)
-//   .post(postUser)
+const { signup, login, forgetpassword, resetpassword, logout } = require('../controller/authController');
+
+//user ke options
+userRouter
   .route('/:id')
   .patch(updateUser)
-  .delete(deleteUser);
+  .delete(deleteUser)
 
-
-  userRouter
+userRouter
   .route("/login")
   .post(login);
 
-  userRouter
+userRouter
   .route("/signup")
   .post(signup);
 
-  userRouter
+userRouter
   .route("/forgetpassword")
   .post(forgetpassword);
 
-  userRouter
+userRouter
   .route("/resetpassword/:token")
   .post(resetpassword);
 
-  userRouter
+userRouter
   .route("/logout")
   .get(logout);
-// userRouter
-//     .route("/setcookies")
-//     .get(setCookies);
-
-// userRouter
-//     .route("/getcookies")
-//     .get(getCookies);
 
 //profile page
-    userRouter.use(protectRoute)
-    userRouter
-    .route('/Profile')
-    .get(getUser)
+userRouter.use(protectRoute)
+userRouter
+  .route('/profile')
+  .get(getUser)
 
 //admin specific function
-    userRouter.use(isAuthorised(['admin']));
-    userRouter
-    .route('/')
-    .get(getAllUser)   
+userRouter.use(isAuthorised(['admin']));
+userRouter.route("/").get(allUser);
 
-    
-// userRouter
-//     .route("/:name")
-//     .get(getUserById);
 
 module.exports = userRouter;

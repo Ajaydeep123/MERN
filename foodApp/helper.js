@@ -2,10 +2,10 @@ var jwt = require("jsonwebtoken");
 const userModel = require("./models/userModel");
 const { JWT_KEY } = require("./secrets");
 
-module.exports.protectRoute = async function (req, res, next) {    // this is a middleware function that we have created to check whether user is logged in or not
+//protectRoute
+module.exports.protectRoute = async function (req, res, next) {
   let token;
   if (req.cookies.login) {
-
     token = req.cookies.login;
     let payloadObj = jwt.verify(token, JWT_KEY);
     const user = await userModel.findById(payloadObj.payload);
@@ -23,7 +23,6 @@ module.exports.protectRoute = async function (req, res, next) {    // this is a 
     });
   }
 };
-
 
 //isAutorised-? check the user's role
 // client will send role key in req obj

@@ -1,7 +1,8 @@
 const userModel = require("../models/userModel");
 var jwt = require("jsonwebtoken");
-const { JWT_KEY } = require("../secrets");
+const { JWT_KEY } = require('../secrets');
 const { use } = require("../Routers/userRouter");
+console.log("1234 ", JWT_KEY);
 
 module.exports.signup=async function (req, res) {
   try {
@@ -100,7 +101,7 @@ module.exports.resetpassword = async function (req, res) {
         msg: "user not found",
       });
     }
-
+    
   }
   catch (err) {
     res.json({
@@ -115,5 +116,6 @@ module.exports.logout = function (req,res) {
     msg:'user logged out successfully'
   })
 }
+
 
 
