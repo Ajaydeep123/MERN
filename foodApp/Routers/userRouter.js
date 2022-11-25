@@ -6,7 +6,7 @@ const { getUser, postUser, updateUser, deleteUser, getAllUser} = require("../con
 const {isAuthorised,protectRoute} = require('../helper');
 const { signup, login } = require('../controller/authController');
 //options for user
-userRouter
+  userRouter
 //   .route("/")
 //   .get(protectRoute, getUsers)
 //   .post(postUser)
@@ -23,6 +23,13 @@ userRouter
   .route("/signup")
   .post(signup);
 
+  userRouter
+  .route("/forgetpassword")
+  .post(forgetpassword);
+
+  userRouter
+  .route("/resetpassword/:token")
+  .post(resetpassword);
 
 // userRouter
 //     .route("/setcookies")
@@ -35,12 +42,13 @@ userRouter
 //profile page
     userRouter.use(protectRoute)
     userRouter
-    .route('/userProfile')
+    .route('/Profile')
     .get(getUser)
 
 //admin specific function
     userRouter.use(isAuthorised(['admin']));
-    userRouter.route('')
+    userRouter
+    .route('/')
     .get(getAllUser)   
 
     

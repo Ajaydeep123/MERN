@@ -76,6 +76,7 @@ module.exports.updateUser = async function (req, res) {
         user[keys[i]] = dataToBeUpdated[keys[i]];
         //name=Abhi
       }
+      console.log("abcd ",user);
       const updatedData = await user.save();
       res.json({
         message: "data updated succesfully",
@@ -129,7 +130,7 @@ module.exports.deleteUser = async function (req, res) {
   }
 };
 
-module.exports.getAllUser = async function (req, res) {
+module.exports.allUser = async function (req, res) {
   try {
     let allUsers = await userModel.find();
     res.json({
