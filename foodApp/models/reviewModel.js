@@ -10,7 +10,7 @@ mongoose
     console.log(err);
   });
   
-const reviewSchema = new mmongoose.Schema({
+const reviewSchema = new mongoose.Schema({
     review: {
       type: String,
       require: [true, "review is required"],
